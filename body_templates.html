@@ -18,6 +18,7 @@
 {$lastname}: 
 {$email}:
 {$phone}:
+{$orderNumber}:
 {include file="string:{config name=emailheaderhtml}"}	
 {include file="string:{config name=emailfooterhtml}"}	
 
@@ -27,7 +28,6 @@
 
 <!--Status Emails/Payment Status-->	
 	
-<!--Status Emails/Order Status-->	
 	
 <!--============================= System Emails =============================-->	
 	
@@ -147,18 +147,87 @@ Viel Spaß beim Ansehen:</p>
 
 <p>Bitte bestätige Deine E-Mail-Adresse über den nachfolgenden Link:</p>
 
-<p>{$sConfirmLink}</p>
+<a href="{$sConfirmLink}">Bestellung fortsetzen</a>
 
 <p>Nach der Bestätigung wirst Du zum Bestellabschluss geleitet, um die Bestellung noch einmal zu überprüfen und an uns zu übermitteln.</p>
 	
 <p>Datenschutz ist uns sehr wichtig. Daher möchten wir Dich darüber in Kenntnis setzen, dass Du Dich mit dieser Bestätigung, damit einverstanden erklärst, dass wir Dir im Rahmen der Vertragserfüllung weitere Mail senden dürfen.</p>
 	
+<!--Status Emails/Order Status-->	
 
+<!--sORDERSTATEMAIL1-->	
+<!--Subject: rebike1: Deine Bestellung ist in Bearbeitung-->	
+<p>Hallo {$sUser.billing_salutation|salutation} {$sUser.billing_lastname},</p>
+
+<p>vielen Dank für Deine Bestellung!</p>
+
+<p>Jetzt geht es los! Dein E-Bike wird nun für den Versand vorbereitet.</p>
+
+<p>Was passiert als nächstes?</p>
+
+<p>Sobald Dein E-Bike zur Abholung bereitsteht, senden wir Dir ein kurzes Update. Wenn die tägliche Abholung erfolgt ist, bekommst Du erneut eine Information, mit den Daten zur Sendungsverfolgung.</p>
+
+<p>Den aktuellen Status Deiner Bestellung kannst Du auch jederzeit auf unserer Webseite im Bereich "Mein Konto"- "Meine Bestellungen" abrufen. Du hast den Kauf als „Gastbesteller“ abgeschlossen? Kein Problem! Wir halten Dich natürlich immer per Mail auf dem Laufenden!</p>
+
+
+<!--ssORDERSTATEMAIL5-->	
+<!--Subject: Deine Bestellung befindet sich auf dem Weg zu Dir-->		
+<p>Hallo Vorname, </p>
+<p>Du freust Dich bestimmt schon auf die erste Tour! </p>
+
+<p>Wir hatten Dir ja versprochen ein Update zu senden, sobald wir Dein E-Bike auf den Weg nach ORT-LIEFERANSCHRIFT gebracht haben. </p>
+
+<p>Nun ist es soweit: Das E-Bike ist jetzt auf dem Weg zu Dir!</p>
+
+<p>Sobald die Sendung im Depot in Deiner Nähe angeliefert wurde, wird sich die Spedition mit dir in Verbindung setzen, um einen Termin zu vereinbaren.</p>
+
+<p>Die Nummer zur Sendungsverfolgung lautet: 180601242372 
+Bitte beachte, dass es bis zu 24 Stunden dauern kann, bis der Link zur Sendungsverfolgung funktioniert.</p>
+ 
+
+<p>Den aktuellen Status Deiner Bestellung kannst Du auch jederzeit auf unserer Webseite im Bereich "Mein Konto"- "Meine Bestellungen" abrufen. Du hast den Kauf als „Gastbesteller“ abgeschlossen? Kein Problem! Wir halten Dich natürlich immer per Mail auf dem Laufenden.</p>
 	
 	
 	
 	
 	
+	
+	
+	
+	
+	
+	
+<!--============================= User Emails =============================-->		
+	
+<!--PickwareReturnReceivedNotice-->	
+<!--Subject: rebike1: Deine Retoure ist in Bearbeitung-->		
+<p>Hallo {$salutation|salutation} {$lastname},</p>
+
+<p>Deine Retoure zur Bestellung #{$orderNumber} bei {config name=shopName} ist eingegangen und wird nun bearbeitet.</p>
+	
+<p>Wir haben folgende Positionen erhalten:</p>
+	
+=======================================
+{assign var=position value=1}
+{foreach from=$returnItems item=item}
+{$position|fill:3} {$item.articleNumber|fill:20} {$item.articleName|fill:50} {$item.quantity}
+{assign var=position value=$position+1}
+{/foreach}
+
+<p>ir werden uns schnellst möglich bei Dir melden, sobald wir die Retoure final abgeschlossen haben.</p>
+	
+	
+<!--PickwareReturnCompletedNotice-->	
+<!--Subject: Retoure zu Bestellung #{$orderNumber} abgeschlossen-->		
+<p>Hallo {$salutation|salutation} {$lastname},</p>
+
+<p>Deine Retoure #{$returnShipmentNumber} zur Bestellung #{$orderNumber} vom DATUM ist nun komplett abgeschlossen.</p>
+	
+<p>{if $invoiceAmount}</p>
+	
+<p>Die Stornorechnung befindet sich als PDF im Anhang dieser E-Mail.</p>
+
+<p>Die Rückerstattung von {$invoiceAmount|abs|currency|unescape:"htmlall"} erfolgt in Kürze auf das ursprünglich verwendete Zahlungsmittel{/if}</p>
 	
 	
 	
@@ -183,7 +252,7 @@ Viel Spaß beim Ansehen:</p>
 	
 	
 
-<!--User Emails-->	
+
 
 <!--Document Emails-->		
 	
