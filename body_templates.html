@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Body Templates</title>
+</head>
+<body>
+	
+<!--Global Elements-->		
+{$sShop}: rebike1 - gebrauchte premium E-Bikes kaufen
+{$sShopURL}: https://rebike1.de
+{$sMAIL}:
+{$street}:
+{$zipcode}: 
+{$city}: 
+{$salutation}: 
+{$firstname}: 
+{$lastname}: 
+{$email}:
+{$phone}:
+{include file="string:{config name=emailheaderhtml}"}	
+{include file="string:{config name=emailfooterhtml}"}	
+
+	
+	
+	
+
+<!--Status Emails/Payment Status-->	
+	
+<!--Status Emails/Order Status-->	
+	
+<!--============================= System Emails =============================-->	
+	
+	
+	
+	
+<!--sREGISTERCONFIRMATION-->	
+<!--Subject: Deine Anmeldung bei rebike1.de-->	
+{include file="string:{config name=emailheaderhtml}"}	
+	
+<p>Hallo {$salutation|salutation} {$lastname},</p>
+<p>vielen Dank für Deine Anmeldung in unserem Shop.</p>
+<p>Durch Eingabe Deiner E-Mail-Adresse und dem passenden Kennwort, erhältst Du Zugang auf Dein Kundenkonto.</p>
+<p>Damit hast du die Möglichkeit Deine persönlichen Informationen anzupassen und Deine Bestellungen einzusehen. Natürlich kannst Du Dich auch über den aktuellen Bestellstatus informieren.</p>
+	
+{include file="string:{config name=emailfooterhtml}"}	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<!--sCONFIRMPASSWORDCHANGE-->	
+<!--Subject: Passwort vergessen - Passwort zurücksetzen-->		
+<p>Hallo {$user.salutation|salutation} {$user.lastname},</p>
+
+<p>Du möchtest Dein Passwort in unserem Shop{$sShop} zurücksetzen? Bitte bestätige, den untenstehenden Link, um ein neues Passwort zu definieren.</p>
+	
+<p>{$sUrlReset}</p>
+	
+<p>Dieser Link ist nur 2 Stunden gültig. Danach muss das Zurücksetzen des Passwortes erneut beantragt werden. Falls Du Dein Passwort nicht zurücksetzen wolltest, ignoriere bitte diese E-Mail - es wird keine Änderung vorgenommen.</p>	
+	
+	
+
+	
+	
+	
+	
+	
+<!--sTELLAFRIEND-->	
+<!--Subject: {$sName} empfiehlt Dir folgenden {$sArticle} von rebike1.de-->		
+<p>Hallo VORNAME,</p>
+
+<p>Dein Freund VORNAME hat bei {$sShop} ein interessantes Produkt gefunden, dass Dir gefallen könnte. 
+Viel Spaß beim Ansehen:</p>
+
+<p>{$sArticle}</p>
+<p>{$sLink}</p>
+	
+
+	
+	
+	
+	
+	
+	
+<!--sARTICLECOMMENT-->	
+<!--Subject: Artikel bewerten-->	
+<p>Hallo {$salutation|salutation} {$lastname},</p>
+<p>vielen Dank für Deine Bestellung!</p>
+	
+<p>Vor einiger Zeit haben wir Dir das E-Bike (ARTIKELBEZEICHNUNG HEADER) geliefert. Wir würden uns freuen, wenn Du uns eine Bewertung hinterlassen würdest.</p>
+
+<p>So hilfst Du uns, unseren Service weiter zu verbessern und kannst auf diesem Weg anderen Interessenten direkt Deine Meinung mitteilen.</p>
+
+<p>Hier findest Du die Links um uns zu bewerten:</p>
+<table width="80%" border="0" style="font-family:Arial, Helvetica, sans-serif; font-size:12px;">
+        <tr>
+          <td bgcolor="#E2E9E8" style="border-bottom:1px solid #cccccc;">Artikel</td>
+          <td bgcolor="#E2E9E8" style="border-bottom:1px solid #cccccc;">Bestellnummer</td>
+          <td bgcolor="#E2E9E8" style="border-bottom:1px solid #cccccc;">Artikelname</td>
+          <td bgcolor="#E2E9E8" style="border-bottom:1px solid #cccccc;">Bewertungslink</td>
+        </tr>
+        {foreach from=$sArticles item=sArticle key=key}
+        {if !$sArticle.modus}
+            <tr>
+                <td style="border-bottom:1px solid #cccccc;">
+                  {if $sArticle.image_small && $sArticle.modus == 0}
+                    <img style="height: 57px;" height="57" src="{$sArticle.image_small}" alt="{$sArticle.articlename}" />
+                  {else}
+                  {/if}
+                </td>
+                <td style="border-bottom:1px solid #cccccc;">{$sArticle.articleordernumber}</td>
+                <td style="border-bottom:1px solid #cccccc;">{$sArticle.name}</td>
+                <td style="border-bottom:1px solid #cccccc;">
+                    <a href="{$sArticle.link_rating_tab}">Link</a>
+                </td>
+            </tr>
+        {/if}
+        {/foreach}
+</table>
+	
+	
+	
+	
+	
+	
+<!--sOPTINREGISTER-->	
+<!--Subject: Bitte bestätigen Sie Ihre Anmeldung bei {config name=shopName}-->		
+<p>Hallo {$salutation|salutation} {$lastname},</p>
+	
+<p>vielen Dank für Deine Anmeldung bei {$sShop}.</p>
+<p>Gleich ist es geschafft! Nur noch ein Klick auf den nachfolgenden Link und Deine Registrierung ist abgeschlossen:</p>
+
+<p>{$sConfirmLink}</p>
+
+<p>Durch diese Bestätigung erklärst Du dich ebenfalls damit einverstanden, dass wir Dir im Rahmen der Vertragserfüllung weitere E-Mails senden dürfen.</p>
+	
+	
+	
+<!--sOPTINREGISTERACCOUNTLESS-->	
+<!--Subject: Bitte bestätigen Sie Ihre E-Mail-Adresse für Ihre Bestellung bei {config name=shopName}-->		
+<p>Hallo {$salutation|salutation} {$lastname},</p>
+
+<p>Bitte bestätige Deine E-Mail-Adresse über den nachfolgenden Link:</p>
+
+<p>{$sConfirmLink}</p>
+
+<p>Nach der Bestätigung wirst Du zum Bestellabschluss geleitet, um die Bestellung noch einmal zu überprüfen und an uns zu übermitteln.</p>
+	
+<p>Datenschutz ist uns sehr wichtig. Daher möchten wir Dich darüber in Kenntnis setzen, dass Du Dich mit dieser Bestätigung, damit einverstanden erklärst, dass wir Dir im Rahmen der Vertragserfüllung weitere Mail senden dürfen.</p>
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+<!--User Emails-->	
+
+<!--Document Emails-->		
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+</body>
+</html>
