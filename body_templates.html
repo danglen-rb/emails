@@ -19,44 +19,221 @@
 {$email}:
 {$phone}:
 {$orderNumber}:
+{$sOrder.ordernumber}
+{$sOrder.ordertime|date_format:" %d.%m.%Y"}
 {include file="string:{config name=emailheaderhtml}"}	
 {include file="string:{config name=emailfooterhtml}"}	
+{$sOrder.ordertime|date_format:"%d.%m.%Y"}
+{$sOrder.ordernumber}
+{include file="string:{config name=emailheaderplain}"}	
+{include file="string:{config name=emailfooterplain}"}
+	
+	
+	Product Name:
+	Order Date:
+	Amount:
+	Order ID:
+	
+	
+	Hallo Dave,
+	
+	billing frst name
+
+
+<!--============================= Status Emails / Order Status =============================-->	
+<!--sREGISTERCONFIRMATION-->	
+<!--Subject: rebike1: Deine Bestellung ist in Bearbeitung-->		
+Hallo VORNAME,
+
+vielen Dank für Deine Bestellung!
+
+Jetzt geht es los! Dein E-Bike wird nun für den Versand vorbereitet. 
+
+Was passiert als nächstes?
+
+Sobald Dein E-Bike zur Abholung bereitsteht, senden wir Dir ein kurzes Update. Wenn die tägliche Abholung erfolgt ist, bekommst Du erneut eine Information, mit den Daten zur Sendungsverfolgung.
+
+Den aktuellen Status Deiner Bestellung kannst Du auch jederzeit auf unserer Webseite im Bereich "Mein Konto"- "Meine Bestellungen" abrufen. Du hast den Kauf als „Gastbesteller“ abgeschlossen? Kein Problem! Wir halten Dich natürlich immer per Mail auf dem Laufenden!
+	
+	
+	
+<!--sORDERSTATEMAIL2-->	
+<!--Subject: rebike1: rebike1: Deine Bestellung befindet sich auf dem Weg zu Dir-->	
+	Hallo Vorname, 
+Du freust Dich bestimmt schon auf die erste Tour! 
+
+Wir hatten Dir ja versprochen ein Update zu senden, sobald wir Dein E-Bike auf den Weg nach ORT-LIEFERANSCHRIFT gebracht haben. 
+
+Nun ist es soweit: Das E-Bike ist jetzt auf dem Weg zu Dir!
+
+Sobald die Sendung im Depot in Deiner Nähe angeliefert wurde, wird sich die Spedition mit dir in Verbindung setzen, um einen Termin zu vereinbaren.
+
+Die Nummer zur Sendungsverfolgung lautet: {$sOrder.trackingcode} 
+Bitte beachte, dass es bis zu 24 Stunden dauern kann, bis der Link zur Sendungsverfolgung funktioniert.
+ 
+
+Den aktuellen Status Deiner Bestellung kannst Du auch jederzeit auf unserer Webseite im Bereich "Mein Konto"- "Meine Bestellungen" abrufen. Du hast den Kauf als „Gastbesteller“ abgeschlossen? Kein Problem! Wir halten Dich natürlich immer per Mail auf dem Laufenden.
+
+	
+<!--sORDERSTATEMAIL2-->	
+<!--Subject: rebike1: Dein E-Bike steht zum Versand bereit-->		
+Hi Vorname,
+	
+es ist Zeit für ein kurzes Update!
+	
+Wir haben Dein E-Bike zum Versand vorbereitet. Es steht nun zur Abholung bereit.
+	
+Wie geht es nun weiter? 
+	
+Sobald wir die Sendung an den Spediteur übergeben haben, schicken wir Dir eine Nachricht mit den Informationen zur Sendungsverfolgung. Wenn die Lieferung in Deiner Nähe eingetroffen ist, erhältst Du einen Anruf von der Spedition. Wundere dich also nicht, wenn plötzlich eine fremde Nummer auf dem Display erscheint.
+	
+Den aktuellen Status Deiner Bestellung kannst Du auch jederzeit auf unserer Webseite im Bereich "Mein Konto"- "Meine Bestellungen" abrufen. Du hast den Kauf als „Gastbesteller“ abgeschlossen? Kein Problem! Wir halten Dich natürlich immer per Mail auf dem Laufenden.
+
+	
+<!--sORDERSTATEMAIL7-->	
+<!--Subject: Deine Bestellung ist komplett abgeschlossen-->		
+Hallo Vorname,
+
+vor kurzem ist Dein E-Bike, bei Dir in Lieferort eingegangen. Wir möchten uns noch einmal herzlichst für Deine Bestellung bedanken und wünschen Dir viel Spaß und allezeit gute Fahrt!
+
+Bist du zufrieden mit unserem Service? Dann freuen wir uns auf Deine Bewertung.
+
+CTA – TRUSTED SHOPS 
+	
+	
+	
+
+<!--sORDERSTATEMAIL8-->	
+<!--Subject: Statusänderung zur Bestellung bei rebike1-->	
+Hallo Vorname,
+	
+vielen Dank für Deine Bestellung vom BESTELL-DATUM.
+	
+Wir haben das E-Bike Dich reserviert. Momentan warten wir noch auf den Zahlungseingang / die Finanzierungsfreigabe. 
+Da die Bestellung bereits über eine Woche zurück liegt, möchten wir in Erfahrung bringen, ob Du die Zahlung / Vertragsabwicklung für die Finanzierung bereits veranlasst hast. 
+	
+Wir freuen uns auf Deine Antwort bis DATUM. 
+	
+Wenn Du den Vorgang stornieren möchtest, brauchst Du auf diese Mail nicht reagieren. Wir werden den Vorgang nach der o. g. Frist stornieren und das reservierte E-Bike zum Verkauf freigeben.
+
+	
+	
+<!--sORDERSTATEMAIL3-->	
+<!--Subject: Ein Teil Deiner Bestellung befindet sich auf dem Weg zu Dir-->		
+Hallo Vorname, 
+wir hatten Dir ja versprochen ein Update zu senden, sobald sich etwas im Verlauf Deiner Bestellung getan hat. 
+
+Wir konnten nun einen Teil Deiner Bestellung auf den Weg nach ORT-LIEFERANSCHRIFT bringen.
+
+In der Sendung enthaltene Artikel:
+==================================
+{assign var=position value=1}
+{foreach item=details key=index from=$sOrderDetails}
+{assign var=itemEmailQuantity value=-1}
+{if $EventResult && $EventResult.orderItemsWhitelist|is_array}
+{foreach item=whitelistQuantity key=whitelistId from=$EventResult.orderItemsWhitelist}
+{if $whitelistId == $details.orderdetailsID}
+{assign var=itemEmailQuantity value=$whitelistQuantity}
+{break}
+{/if}
+{/foreach}
+{else}
+{assign var=itemEmailQuantity value=$details.quantity}
+{/if}
+{if $itemEmailQuantity > -1}
+{$position|fill:3} {$details.articleordernumber|fill:20} {$details.name|fill:50} {$itemEmailQuantity}/{$details.quantity}
+{assign var=position value=$position+1}
+{/if}
+{/foreach}
+
+{if $EventResult and (!empty($EventResult.statusURLs) or !empty($EventResult.trackingCodes))}
+{if !empty($EventResult.statusURLs)}
+{* Add all status URLs *}
+
+
+Sobald die Sendung im Depot in Deiner Nähe angeliefert wurde, wird sich die Spedition mit dir in Verbindung setzen, um einen Termin zu vereinbaren.
+
+Die Nummer zur Sendungsverfolgung lautet: 180601242372 
+Bitte beachte, dass es bis zu 24 Stunden dauern kann, bis der Link zur Sendungsverfolgung funktioniert.
+ 
+
+Den aktuellen Status Deiner Bestellung kannst Du auch jederzeit auf unserer Webseite im Bereich "Mein Konto"- "Meine Bestellungen" abrufen. Du hast den Kauf als „Gastbesteller“ abgeschlossen? Kein Problem! Wir halten Dich natürlich immer per Mail auf dem Laufenden.
+	
+	
+	
+	
+<!--sORDERSTATEMAIL6-->	
+<!--Subject: Deine Bestellung ist komplett abgeschlossen-->			
+Hallo Vorname,
+
+vor kurzem ist unsere erste Lieferung bei Dir in Lieferort eingetroffen. Insofern nicht bereits erfolgt, melden wir uns umgehend bei Dir, sobald wir die Restlieferung ebenfalls auf den Weg bringen konnten.	
+	
+	
+	
+<!--sORDERSTATEMAIL4-->	
+<!--Subject: rebike1: Deine Bestellung wurde storniert-->	
+Hallo Vorname,
+	
+mit dieser Mail möchten wir Dich darüber informieren, dass wir Deine Bestellung {$sOrder.ordernumber} vom {$sOrder.ordertime|date_format:"%d.%m.%Y"} storniert haben!
+
+Solltest Du die Zahlung bereits veranlasst haben, werden wir die Rückerstattung zeitnah veranlassen. Bitte beachte, dass die Zahlung auf das Zahlungsmittel erfolgt, dass Du bei Deiner Bestellung ausgewählt hattest.
+Du hast finanziert? Kein Problem! Mit der Stornierung informieren wir das Finanzinstitut, damit dort der Vorgang ebenfalls storniert/geschlossen wird.
+
+	
+		
+	
+	
+<!--============================= Status Emails / Payments Status =============================-->	
+	
+	
+<!--sORDERSTATEMAIL12-->	
+<!--Subject: rebike1: Wir haben Deine Zahlung / die Finanzierungsfreigabe erhalten-->
+Hallo {$sUser.billing_firstname},
+	
+vielen Dank für Deine Bestellung!
+Wir freuen uns Dir bestätigen zu können, dass Deine Zahlung / die Freigabe der Ratenzahlung bei uns eingegangen ist. Sicher freust Du Dich schon auf Dein E-Bike und kannst es kaum erwarten die erste Tour damit zu fahren.
+Was passiert als nächstes?
+	
+Dein Bike wird nun kommissioniert, zum Versand vorbereitet und anschließend an die Spedition übergeben.
+Selbstverständlich halten wir Dich über alle Schritte auf dem Laufenden, damit Du weißt welchen Status Deine Bestellung gerade hat.
+	
+Den aktuellen Status Deiner Bestellung kannst Du auch jederzeit auf unserer Webseite im Bereich "Mein Konto"- "Meine Bestellungen" abrufen. Als Gastbesteller ohne Kundenkonto, halten wir dich natürlich per Mail immer auf dem Laufenden! 
+
+	
+<!--sORDERSTATEMAIL20-->	
+<!--Subject: rebike1: rebike1: Wir haben Dir eine Zahlung übermittelt-->	
+Hallo {$sUser.billing_firstname},
+	
+Du hast eine Zahlung von uns erhalten. Die Erstattung erfolgte auf das von dir gewählte Zahlungsmittel und sollte kurzfristig verfügbar sein.
+
+Den aktuellen Status Deiner Bestellung kannst Du auch jederzeit auf unserer Webseite im Bereich "Mein Konto"- "Meine Bestellungen" abrufen. Als Gastbesteller ohne Kundenkonto, halten wir dich natürlich per Mail immer auf dem Laufenden! 
+	
+	
+	
+	
+	
 
 	
 	
 	
-
-<!--Status Emails/Payment Status-->	
 	
 	
-<!--============================= System Emails =============================-->	
-	
-	
-	
-	
+<!--============================= System Emails 6 files=============================-->	
+		
 <!--sREGISTERCONFIRMATION-->	
 <!--Subject: Deine Anmeldung bei rebike1.de-->	
-{include file="string:{config name=emailheaderhtml}"}	
-	
 <p>Hallo {$salutation|salutation} {$lastname},</p>
 <p>vielen Dank für Deine Anmeldung in unserem Shop.</p>
 <p>Durch Eingabe Deiner E-Mail-Adresse und dem passenden Kennwort, erhältst Du Zugang auf Dein Kundenkonto.</p>
 <p>Damit hast du die Möglichkeit Deine persönlichen Informationen anzupassen und Deine Bestellungen einzusehen. Natürlich kannst Du Dich auch über den aktuellen Bestellstatus informieren.</p>
 	
-{include file="string:{config name=emailfooterhtml}"}	
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
 <!--sCONFIRMPASSWORDCHANGE-->	
 <!--Subject: Passwort vergessen - Passwort zurücksetzen-->		
 <p>Hallo {$user.salutation|salutation} {$user.lastname},</p>
-
 <p>Du möchtest Dein Passwort in unserem Shop{$sShop} zurücksetzen? Bitte bestätige, den untenstehenden Link, um ein neues Passwort zu definieren.</p>
 	
 <p>{$sUrlReset}</p>
@@ -64,12 +241,9 @@
 <p>Dieser Link ist nur 2 Stunden gültig. Danach muss das Zurücksetzen des Passwortes erneut beantragt werden. Falls Du Dein Passwort nicht zurücksetzen wolltest, ignoriere bitte diese E-Mail - es wird keine Änderung vorgenommen.</p>	
 	
 	
+	
+	
 
-	
-	
-	
-	
-	
 <!--sTELLAFRIEND-->	
 <!--Subject: {$sName} empfiehlt Dir folgenden {$sArticle} von rebike1.de-->		
 <p>Hallo VORNAME,</p>
